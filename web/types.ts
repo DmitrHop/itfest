@@ -2,11 +2,37 @@
 export interface Program {
   id: string;
   name: string;
-  degree: 'Bachelor' | 'Master' | 'PhD';
+  code?: string; // e.g., "5B010900", "BM086"
+  degree: 'Bachelor' | 'Master' | 'PhD' | 'Residency' | 'Internship';
   price: number; // KZT
-  minScore: number; // ENT score
+  minScore: number; // ENT passing score for grants
   grants: number; // Number of available grants
-  subjects?: [string, string]; // Optional for mock data mapping
+  duration?: number; // Years (default 4)
+  subjects?: [string, string]; // ENT profile subjects
+  ruralQuotaScore?: number; // Rural quota passing score
+}
+
+export interface SubjectCombination {
+  subjects: [string, string]; // e.g., ["Математика", "Физика"]
+  programCount: number;
+  programs: string[]; // List of program names
+}
+
+export interface AdmissionRequirements {
+  entThreshold: number; // General ENT threshold (e.g., 65, 70)
+  historyMin: number; // History of Kazakhstan minimum
+  profileMin: number; // Profile subjects minimum (each)
+  mathLiteracyMin: number; // Mathematical literacy minimum
+  readingLiteracyMin: number; // Reading literacy minimum
+  alternativeTests?: { // For NU-like universities
+    nuet?: number;
+    sat?: number;
+    act?: number;
+    ielts?: { overall: number; writing: number; other: number };
+    ibDiploma?: number;
+    aLevel?: string; // e.g., "ABB"
+  };
+  usesEnt: boolean; // Whether university uses ENT system
 }
 
 export interface University {
@@ -17,7 +43,7 @@ export interface University {
   rating: number; // 1-100
   image: string;
   description: string;
-  type: 'National' | 'State' | 'Private' | 'International';
+  type: 'National' | 'State' | 'Private' | 'International' | 'Autonomous';
   founded: number;
   students: number;
   programs: Program[];
@@ -25,6 +51,12 @@ export interface University {
   employmentRate: number; // %
   dormitory: boolean;
   militaryDept: boolean;
+  // New fields
+  admissionRequirements?: AdmissionRequirements;
+  subjectCombinations?: SubjectCombination[];
+  totalPrograms?: { bachelor?: number; master?: number; phd?: number; residency?: number };
+  teachingLanguages?: string[];
+  grantsPerYear?: number;
 }
 
 export interface ChatMessage {
