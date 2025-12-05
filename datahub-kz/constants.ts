@@ -101,6 +101,46 @@ export const UNIVERSITIES: University[] = [
       { id: 'math_sdu', name: 'Mathematics', degree: 'Bachelor', price: 1500000, minScore: 85, grants: 100 },
       { id: 'ph_sdu', name: 'Philology', degree: 'Bachelor', price: 1200000, minScore: 80, grants: 50 },
     ]
+  },
+  {
+    id: 'narxoz',
+    name: 'Narxoz University',
+    shortName: 'Narxoz',
+    city: 'Almaty',
+    rating: 90,
+    image: 'https://images.unsplash.com/photo-1541339907198-e08756dedf3f?q=80&w=800&auto=format&fit=crop', // Business / modern
+    description: 'Ведущий экономический университет, кузница кадров для бизнеса и финансов.',
+    type: 'Private',
+    founded: 1963,
+    students: 6000,
+    employmentRate: 92,
+    dormitory: true,
+    militaryDept: true,
+    coordinates: { lat: 43.21, lng: 76.86 },
+    programs: [
+      { id: 'fin_narxoz', name: 'Finance', degree: 'Bachelor', price: 1400000, minScore: 90, grants: 60 },
+      { id: 'acc_narxoz', name: 'Accounting', degree: 'Bachelor', price: 1300000, minScore: 85, grants: 40 },
+    ]
+  },
+  {
+    id: 'aues',
+    name: 'Almaty University of Power Engineering and Telecommunications',
+    shortName: 'AUES',
+    city: 'Almaty',
+    rating: 85,
+    image: 'https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=800&auto=format&fit=crop',
+    description: 'Ведущий технический университет в области энергетики и телекоммуникаций.',
+    type: 'State',
+    founded: 1975,
+    students: 8000,
+    employmentRate: 88,
+    dormitory: true,
+    militaryDept: true,
+    coordinates: { lat: 43.24, lng: 76.92 },
+    programs: [
+      { id: 'energy_aues', name: 'Power Engineering', degree: 'Bachelor', price: 1100000, minScore: 80, grants: 150 },
+      { id: 'telecom_aues', name: 'Telecommunications', degree: 'Bachelor', price: 1000000, minScore: 75, grants: 100 },
+    ]
   }
 ];
 
