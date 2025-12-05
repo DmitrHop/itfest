@@ -12,19 +12,19 @@ const ALL_LOCATIONS = {
             id: 'hall',
             name: 'Main Hall',
             description: 'The main entrance and gathering area',
-            texturePath: '/3d-models/iitu/hall/0.jpg',
+            texturePath: '/assets/3d-models/iitu/hall/0.jpg',
         },
         {
             id: 'mixed_reality',
             name: 'Mixed Reality Lab',
             description: 'Laboratory for VR/AR research',
-            texturePath: '/3d-models/iitu/mixed reality lab/0.jpg',
+            texturePath: '/assets/3d-models/iitu/mixed reality lab/0.jpg',
         },
         {
             id: 'ret',
             name: 'RET Lab',
             description: 'Radio Electronics and Telecommunications',
-            texturePath: '/3d-models/iitu/РЭТ/0.jpg',
+            texturePath: '/assets/3d-models/iitu/РЭТ/0.jpg',
         }
     ],
     narxoz: [
