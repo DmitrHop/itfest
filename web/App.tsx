@@ -5,6 +5,7 @@ import { University, ViewState, FilterState, GrantPrediction, EntSubject } from 
 import StatsChart from './components/StatsChart';
 import AiAssistant from './components/AiAssistant';
 import Tour3D from './components/Tour3D';
+import ImageCarousel from './components/ImageCarousel';
 import {
   GraduationCap,
   Search,
@@ -44,9 +45,32 @@ import {
   Coins,
   Hammer,
   HelpCircle,
-  ChevronRight
+  ChevronRight,
+  Image as ImageIcon
 } from 'lucide-react';
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Legend } from 'recharts';
+
+// --- Constants & Helpers ---
+// IDs of universities that have a 3D tour
+const TOUR_IDS = ['iitu', 'narxoz', 'aues', 'aupet'];
+
+// Dynamically import main images from assets/main/[Uni Name]/...
+const mainImages = import.meta.glob('/assets/main/*/*.{png,jpg,jpeg,webp}', { eager: true, query: '?url', import: 'default' });
+// Also import carousel images to use as fallback
+const carouselImages = import.meta.glob('/assets/carousel/*/*.{png,jpg,jpeg,webp}', { eager: true, query: '?url', import: 'default' });
+
+const getUniImage = (uni: University) => {
+  // 1. Try to find image in assets/main/[uni.name]/
+  const mainKey = Object.keys(mainImages).find(path => path.includes(`/assets/main/${uni.name}/`));
+  if (mainKey) return mainImages[mainKey];
+
+  // 2. Fallback: Try to find ANY image in assets/carousel/[uni.name]/
+  // We pick the first one (usually 1.jpg or similar)
+  const carouselKey = Object.keys(carouselImages).find(path => path.includes(`/assets/carousel/${uni.name}/`));
+  if (carouselKey) return carouselImages[carouselKey];
+
+  return null;
+};
 
 // --- Constants for Grant Calculator ---
 
@@ -563,8 +587,8 @@ const ComparisonVisuals = ({ universities }: { universities: University[] }) => 
 
         <div className="bg-gradient-to-br from-orange-50 to-white p-5 rounded-3xl border border-orange-100 flex items-center justify-center">
           <div className="text-center">
-            <div className="text-3xl font-bold text-orange-400 mb-1">{universities.length}</div>
-            <div className="text-sm text-orange-800 font-medium">Вузов в сравнении</div>
+            <div className="text-3xl font-bold text-orange-400 mb-1">{UNIVERSITIES.length}</div>
+            <div className="text-sm text-orange-800 font-medium">Университетов</div>
           </div>
         </div>
       </div>
@@ -696,7 +720,7 @@ const UniversityCard: React.FC<{
 
     <div className="relative h-48 overflow-hidden cursor-pointer" onClick={() => onSelect(uni)}>
       <img
-        src={uni.image}
+        src={getUniImage(uni) || uni.image}
         alt={uni.name}
         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
       />
@@ -765,7 +789,7 @@ const UniversityCard: React.FC<{
 );
 
 const UniversityDetails = ({ uni, onBack, onToggleFavorite, isFavorite }: { uni: University; onBack: () => void; onToggleFavorite: (u: University) => void; isFavorite: boolean }) => {
-  const [activeTab, setActiveTab] = useState<'info' | 'programs' | 'tour'>('info');
+  const [activeTab, setActiveTab] = useState<'info' | 'programs' | 'tour' | 'gallery'>('info');
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -784,7 +808,7 @@ const UniversityDetails = ({ uni, onBack, onToggleFavorite, isFavorite }: { uni:
 
       <div className="bg-white rounded-3xl shadow-xl overflow-hidden mb-8">
         <div className="relative h-64 md:h-80">
-          <img src={uni.image} className="w-full h-full object-cover" alt={uni.name} />
+          <img src={getUniImage(uni) || uni.image} className="w-full h-full object-cover" alt={uni.name} />
           <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 to-transparent"></div>
           <div className="absolute bottom-6 left-6 md:left-10 text-white">
             <h1 className="text-3xl md:text-5xl font-bold mb-2">{uni.name}</h1>
@@ -810,10 +834,14 @@ const UniversityDetails = ({ uni, onBack, onToggleFavorite, isFavorite }: { uni:
               Программы ({uni.programs.length})
             </button>
             <button
-              onClick={() => setActiveTab('tour')}
-              className={`px-6 py-4 text-sm font-medium border-b-2 whitespace-nowrap flex items-center gap-2 ${activeTab === 'tour' ? 'border-kz-blue text-kz-blue' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
+              onClick={() => setActiveTab(TOUR_IDS.includes(uni.id) ? 'tour' : 'gallery')}
+              className={`px-6 py-4 text-sm font-medium border-b-2 whitespace-nowrap flex items-center gap-2 ${['tour', 'gallery'].includes(activeTab) ? 'border-kz-blue text-kz-blue' : 'border-transparent text-slate-500 hover:text-slate-700'}`}
             >
-              <Building2 className="w-4 h-4" /> 3D Тур
+              {TOUR_IDS.includes(uni.id) ? (
+                <><Building2 className="w-4 h-4" /> 3D Тур (Доступен)</>
+              ) : (
+                <><ImageIcon className="w-4 h-4" /> Фотогалерея</>
+              )}
             </button>
           </nav>
         </div>
@@ -905,6 +933,13 @@ const UniversityDetails = ({ uni, onBack, onToggleFavorite, isFavorite }: { uni:
 
           {activeTab === 'tour' && (
             <Tour3D universityId={uni.id} />
+          )}
+
+          {activeTab === 'gallery' && (
+            <div className="p-4">
+              <h3 className="text-xl font-bold mb-4">Фотогалерея кампуса</h3>
+              <ImageCarousel universityName={uni.name} />
+            </div>
           )}
         </div>
       </div>

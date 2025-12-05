@@ -46,13 +46,27 @@ const ALL_LOCATIONS = {
             id: 'hall',
             name: 'Main Hall',
             description: 'The central entrance area',
-            texturePath: '/assets/3d-models/AUES/hall/1.png',
+            texturePath: '/assets/3d-models/Almaty University of Power Engineering and Telecommunications/hall/1.png',
         },
         {
             id: 'commission',
             name: 'Admission Commission',
             description: 'Where students apply and register',
-            texturePath: '/assets/3d-models/AUES/commision/1.png',
+            texturePath: '/assets/3d-models/Almaty University of Power Engineering and Telecommunications/commision/1.png',
+        }
+    ],
+    aupet: [
+        {
+            id: 'hall',
+            name: 'Main Hall',
+            description: 'The central entrance area',
+            texturePath: '/assets/3d-models/Almaty University of Power Engineering and Telecommunications/hall/1.png',
+        },
+        {
+            id: 'commission',
+            name: 'Admission Commission',
+            description: 'Where students apply and register',
+            texturePath: '/assets/3d-models/Almaty University of Power Engineering and Telecommunications/commision/1.png',
         }
     ]
 };
