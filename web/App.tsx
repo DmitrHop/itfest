@@ -4,6 +4,7 @@ import { UNIVERSITIES, COMPARISON_METRICS } from './constants';
 import { University, ViewState, FilterState, GrantPrediction, EntSubject } from './types';
 import StatsChart from './components/StatsChart';
 import AiAssistant from './components/AiAssistant';
+import Tour3D from './components/Tour3D';
 import {
   GraduationCap,
   Search,
@@ -903,16 +904,7 @@ const UniversityDetails = ({ uni, onBack, onToggleFavorite, isFavorite }: { uni:
           )}
 
           {activeTab === 'tour' && (
-            <div className="relative h-96 w-full rounded-2xl overflow-hidden group cursor-pointer bg-slate-900">
-              <img src={uni.image} className="w-full h-full object-cover opacity-60 group-hover:opacity-40 transition-opacity" alt="3D Tour" />
-              <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-                <div className="w-20 h-20 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/30 group-hover:scale-110 transition-transform">
-                  <PlayCircle className="w-10 h-10" />
-                </div>
-                <h3 className="mt-4 text-2xl font-bold">Начать виртуальный тур</h3>
-                <p className="text-slate-300">Исследуйте кампус в 360°</p>
-              </div>
-            </div>
+            <Tour3D universityId={uni.id} />
           )}
         </div>
       </div>
