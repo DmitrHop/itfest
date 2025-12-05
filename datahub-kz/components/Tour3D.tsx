@@ -42,6 +42,20 @@ const ALL_LOCATIONS = {
             description: 'Coworking and relaxation area',
             texturePath: '/3d-models/narxoz/hub/1.png',
         }
+    ],
+    aues: [
+        {
+            id: 'hall',
+            name: 'Main Hall',
+            description: 'The central entrance area',
+            texturePath: '/3d-models/aues/hall/1.png',
+        },
+        {
+            id: 'commission',
+            name: 'Admission Commission',
+            description: 'Where students apply and register',
+            texturePath: '/3d-models/aues/commision/1.png',
+        }
     ]
 };
 
