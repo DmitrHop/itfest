@@ -878,7 +878,7 @@ const UniversityDetails = ({ uni, onBack, onToggleFavorite, isFavorite }: { uni:
 
           {activeTab === 'tour' && (
             <div className="animate-in fade-in duration-500">
-              <Tour3D />
+              <Tour3D universityId={uni.id} />
             </div>
           )}
         </div>

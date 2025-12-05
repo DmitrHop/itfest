@@ -8,27 +8,42 @@ import { ArrowLeft, MapPin } from 'lucide-react';
 // Based on the file structure: public/3d-models/iitu/[location]/[image].jpg
 // We will use the first image from each folder as the panorama for now, assuming they are 360 images.
 // If they are not true seamless 360s, this is a best-effort visualization.
-const LOCATIONS = [
-    {
-        id: 'hall',
-        name: 'Main Hall',
-        description: 'The main entrance and gathering area',
-        // Assuming 0.jpg is a good representative or panorama
-        texturePath: '/3d-models/iitu/hall/0.jpg',
-    },
-    {
-        id: 'mixed_reality',
-        name: 'Mixed Reality Lab',
-        description: 'Laboratory for VR/AR research',
-        texturePath: '/3d-models/iitu/mixed reality lab/0.jpg',
-    },
-    {
-        id: 'ret',
-        name: 'RET Lab',
-        description: 'Radio Electronics and Telecommunications',
-        texturePath: '/3d-models/iitu/РЭТ/0.jpg',
-    }
-];
+const ALL_LOCATIONS = {
+    iitu: [
+        {
+            id: 'hall',
+            name: 'Main Hall',
+            description: 'The main entrance and gathering area',
+            texturePath: '/3d-models/iitu/hall/0.jpg',
+        },
+        {
+            id: 'mixed_reality',
+            name: 'Mixed Reality Lab',
+            description: 'Laboratory for VR/AR research',
+            texturePath: '/3d-models/iitu/mixed reality lab/0.jpg',
+        },
+        {
+            id: 'ret',
+            name: 'RET Lab',
+            description: 'Radio Electronics and Telecommunications',
+            texturePath: '/3d-models/iitu/РЭТ/0.jpg',
+        }
+    ],
+    narxoz: [
+        {
+            id: 'hall',
+            name: 'Main Atrium',
+            description: 'Central hub of the university',
+            texturePath: '/3d-models/narxoz/hall/1.png',
+        },
+        {
+            id: 'hub',
+            name: 'Student Hub',
+            description: 'Coworking and relaxation area',
+            texturePath: '/3d-models/narxoz/hub/1.png',
+        }
+    ]
+};
 
 function Panorama({ texturePath }: { texturePath: string }) {
     // Load texture using Three.js loader
@@ -51,9 +66,18 @@ function Panorama({ texturePath }: { texturePath: string }) {
     );
 }
 
-export function Tour3D() {
-    const [currentLocationId, setCurrentLocationId] = useState(LOCATIONS[0].id);
-    const currentLocation = LOCATIONS.find(l => l.id === currentLocationId) || LOCATIONS[0];
+export function Tour3D({ universityId }: { universityId?: string }) {
+    // Default to IITU if no ID provided or not found
+    const locations = ALL_LOCATIONS[universityId as keyof typeof ALL_LOCATIONS] || ALL_LOCATIONS['iitu'];
+
+    // Ensure we start with a valid location id from the current set
+    const [currentLocationId, setCurrentLocationId] = useState(locations[0]?.id);
+    const currentLocation = locations.find(l => l.id === currentLocationId) || locations[0];
+
+    // Reset current location when university changes
+    if (locations[0].id !== currentLocationId && !locations.find(l => l.id === currentLocationId)) {
+        setCurrentLocationId(locations[0].id);
+    }
 
     return (
         <div className="w-full h-[600px] relative bg-black rounded-2xl overflow-hidden">
@@ -67,7 +91,7 @@ export function Tour3D() {
 
                     {/* Location Selector */}
                     <div className="flex gap-2">
-                        {LOCATIONS.map(loc => (
+                        {locations.map(loc => (
                             <button
                                 key={loc.id}
                                 onClick={() => setCurrentLocationId(loc.id)}
