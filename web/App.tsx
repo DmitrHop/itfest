@@ -175,8 +175,8 @@ const GrantCalculatorModal = ({ isOpen, onClose, onSelectUni }: { isOpen: boolea
                       key={pair.id}
                       onClick={() => setSelectedPairId(pair.id)}
                       className={`flex items-center gap-3 p-4 rounded-xl border transition-all text-left ${selectedPairId === pair.id
-                          ? 'bg-white border-kz-blue ring-2 ring-kz-blue/20 shadow-md'
-                          : 'bg-white border-slate-200 hover:border-kz-blue/50 hover:bg-slate-50'
+                        ? 'bg-white border-kz-blue ring-2 ring-kz-blue/20 shadow-md'
+                        : 'bg-white border-slate-200 hover:border-kz-blue/50 hover:bg-slate-50'
                         }`}
                     >
                       <div className={`p-2 rounded-lg ${selectedPairId === pair.id ? 'bg-kz-blue text-white' : 'bg-slate-100 text-slate-500'}`}>
@@ -341,8 +341,8 @@ const PredictionCard: React.FC<{ item: GrantPrediction, onSelectUni: (u: Univers
   );
 }
 
-const FilterPanel = ({ filters, onChange, onReset }: { filters: FilterState, onChange: (f: FilterState) => void, onReset: () => void }) => {
-  const cities = Array.from(new Set(UNIVERSITIES.map(u => u.city)));
+const FilterPanel = ({ filters, onChange, onReset, isOpen, onToggle }: { filters: FilterState, onChange: (f: FilterState) => void, onReset: () => void, isOpen: boolean, onToggle: () => void }) => {
+  const cities = Array.from(new Set(UNIVERSITIES.map(u => u.city))).sort();
 
   const toggleCity = (city: string) => {
     const newCities = filters.city.includes(city)
@@ -351,70 +351,104 @@ const FilterPanel = ({ filters, onChange, onReset }: { filters: FilterState, onC
     onChange({ ...filters, city: newCities });
   };
 
+  const activeFiltersCount = filters.city.length + (filters.hasDormitory ? 1 : 0) + (filters.hasMilitary ? 1 : 0) + (filters.maxPrice < 3000000 ? 1 : 0);
+
   return (
-    <div className="w-full md:w-64 shrink-0 bg-white p-5 rounded-2xl border border-slate-200 h-fit md:sticky md:top-24 space-y-6">
-      <div className="flex items-center justify-between">
-        <h3 className="font-bold text-slate-800 flex items-center gap-2"><SlidersHorizontal className="w-4 h-4" /> Фильтры</h3>
-        <button onClick={onReset} className="text-xs text-kz-blue hover:underline">Сбросить</button>
-      </div>
-
-      <div>
-        <h4 className="text-sm font-bold text-slate-700 mb-3">Стоимость (до)</h4>
-        <input
-          type="range"
-          min="0"
-          max="3000000"
-          step="100000"
-          value={filters.maxPrice}
-          onChange={(e) => onChange({ ...filters, maxPrice: parseInt(e.target.value) })}
-          className="w-full accent-kz-blue"
-        />
-        <div className="flex justify-between text-xs text-slate-500 mt-1">
-          <span>0 ₸</span>
-          <span className="font-bold text-slate-900">{filters.maxPrice === 3000000 ? 'Любая' : `${(filters.maxPrice / 1000).toFixed(0)} тыс ₸`}</span>
+    <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden mb-6">
+      {/* Filter Header - Always visible */}
+      <button
+        onClick={onToggle}
+        className="w-full flex items-center justify-between p-4 hover:bg-slate-50 transition-colors"
+      >
+        <div className="flex items-center gap-3">
+          <div className="p-2 bg-kz-blue/10 rounded-lg">
+            <SlidersHorizontal className="w-5 h-5 text-kz-blue" />
+          </div>
+          <div className="text-left">
+            <h3 className="font-bold text-slate-800">Фильтры</h3>
+            <p className="text-xs text-slate-500">
+              {activeFiltersCount > 0 ? `${activeFiltersCount} активных фильтров` : 'Все университеты'}
+            </p>
+          </div>
         </div>
-      </div>
-
-      <div>
-        <h4 className="text-sm font-bold text-slate-700 mb-3">Город</h4>
-        <div className="space-y-2">
-          {cities.map(city => (
-            <label key={city} className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer hover:text-slate-900">
-              <input
-                type="checkbox"
-                checked={filters.city.includes(city)}
-                onChange={() => toggleCity(city)}
-                className="rounded text-kz-blue focus:ring-kz-blue border-slate-300"
-              />
-              {city}
-            </label>
-          ))}
-        </div>
-      </div>
-
-      <div>
-        <h4 className="text-sm font-bold text-slate-700 mb-3">Инфраструктура</h4>
-        <div className="space-y-2">
-          <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
-            <div
-              onClick={() => onChange({ ...filters, hasDormitory: !filters.hasDormitory })}
-              className={`w-9 h-5 rounded-full p-0.5 transition-colors ${filters.hasDormitory ? 'bg-kz-blue' : 'bg-slate-200'}`}
+        <div className="flex items-center gap-3">
+          {activeFiltersCount > 0 && (
+            <span
+              onClick={(e) => { e.stopPropagation(); onReset(); }}
+              className="text-xs text-kz-blue hover:underline px-2 py-1 rounded"
             >
-              <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${filters.hasDormitory ? 'translate-x-4' : 'translate-x-0'}`} />
-            </div>
-            Общежитие
-          </label>
-          <label className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer">
-            <div
-              onClick={() => onChange({ ...filters, hasMilitary: !filters.hasMilitary })}
-              className={`w-9 h-5 rounded-full p-0.5 transition-colors ${filters.hasMilitary ? 'bg-kz-blue' : 'bg-slate-200'}`}
-            >
-              <div className={`w-4 h-4 bg-white rounded-full shadow-sm transition-transform ${filters.hasMilitary ? 'translate-x-4' : 'translate-x-0'}`} />
-            </div>
-            Военная кафедра
-          </label>
+              Сбросить
+            </span>
+          )}
+          <ChevronDown className={`w-5 h-5 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
         </div>
-      </div>
+      </button>
+
+      {/* Collapsible Filter Content */}
+      {isOpen && (
+        <div className="border-t border-slate-200 p-5 grid grid-cols-1 md:grid-cols-4 gap-6">
+          {/* Price Filter */}
+          <div>
+            <h4 className="text-sm font-bold text-slate-700 mb-3">Стоимость (до)</h4>
+            <input
+              type="range"
+              min="0"
+              max="3000000"
+              step="100000"
+              value={filters.maxPrice}
+              onChange={(e) => onChange({ ...filters, maxPrice: parseInt(e.target.value) })}
+              className="w-full accent-kz-blue"
+            />
+            <div className="flex justify-between text-xs text-slate-500 mt-1">
+              <span>0 ₸</span>
+              <span className="font-bold text-slate-900">{filters.maxPrice === 3000000 ? 'Любая' : `${(filters.maxPrice / 1000).toFixed(0)} тыс ₸`}</span>
+            </div>
+          </div>
+
+          {/* City Filter - Two columns on desktop */}
+          <div className="md:col-span-2">
+            <h4 className="text-sm font-bold text-slate-700 mb-3">Город</h4>
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2">
+              {cities.map(city => (
+                <label key={city} className="flex items-center gap-2 text-sm text-slate-600 cursor-pointer hover:text-slate-900">
+                  <input
+                    type="checkbox"
+                    checked={filters.city.includes(city)}
+                    onChange={() => toggleCity(city)}
+                    className="rounded text-kz-blue focus:ring-kz-blue border-slate-300"
+                  />
+                  <span className="truncate">{city}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Infrastructure */}
+          <div>
+            <h4 className="text-sm font-bold text-slate-700 mb-3">Инфраструктура</h4>
+            <div className="space-y-3">
+              <label className="flex items-center gap-3 text-sm text-slate-600 cursor-pointer">
+                <div
+                  onClick={() => onChange({ ...filters, hasDormitory: !filters.hasDormitory })}
+                  className={`w-10 h-6 rounded-full p-0.5 transition-colors ${filters.hasDormitory ? 'bg-kz-blue' : 'bg-slate-200'}`}
+                >
+                  <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${filters.hasDormitory ? 'translate-x-4' : 'translate-x-0'}`} />
+                </div>
+                Общежитие
+              </label>
+              <label className="flex items-center gap-3 text-sm text-slate-600 cursor-pointer">
+                <div
+                  onClick={() => onChange({ ...filters, hasMilitary: !filters.hasMilitary })}
+                  className={`w-10 h-6 rounded-full p-0.5 transition-colors ${filters.hasMilitary ? 'bg-kz-blue' : 'bg-slate-200'}`}
+                >
+                  <div className={`w-5 h-5 bg-white rounded-full shadow-sm transition-transform ${filters.hasMilitary ? 'translate-x-4' : 'translate-x-0'}`} />
+                </div>
+                Военная кафедра
+              </label>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
@@ -586,7 +620,7 @@ const StatsTicker = () => (
   <div className="bg-slate-900 border-t border-white/5 py-6">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-wrap justify-center md:justify-between items-center gap-6 md:gap-0">
       <div className="flex items-center gap-3">
-        <div className="text-4xl font-bold text-white">113</div>
+        <div className="text-4xl font-bold text-white">42</div>
         <div className="text-sm text-slate-400 leading-tight">Университетов<br />в базе данных</div>
       </div>
       <div className="w-px h-10 bg-white/10 hidden md:block"></div>
@@ -596,7 +630,7 @@ const StatsTicker = () => (
       </div>
       <div className="w-px h-10 bg-white/10 hidden md:block"></div>
       <div className="flex items-center gap-3">
-        <div className="text-4xl font-bold text-white">300+</div>
+        <div className="text-4xl font-bold text-white">700+</div>
         <div className="text-sm text-slate-400 leading-tight">Образовательных<br />программ</div>
       </div>
       <div className="w-px h-10 bg-white/10 hidden md:block"></div>
@@ -717,8 +751,8 @@ const UniversityCard: React.FC<{
         <button
           onClick={(e) => { e.stopPropagation(); onCompare(uni); }}
           className={`px-3 py-2.5 rounded-xl border transition-colors ${isSelected
-              ? 'bg-kz-sun border-kz-sun text-slate-900'
-              : 'border-slate-200 text-slate-500 hover:border-kz-sun hover:text-kz-sun'
+            ? 'bg-kz-sun border-kz-sun text-slate-900'
+            : 'border-slate-200 text-slate-500 hover:border-kz-sun hover:text-kz-sun'
             }`}
           title={isSelected ? "Убрать из сравнения" : "Добавить в сравнение"}
         >
@@ -897,6 +931,7 @@ const App: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCalculatorOpen, setIsCalculatorOpen] = useState(false);
   const [comparisonMode, setComparisonMode] = useState<'absolute' | 'relative'>('absolute');
+  const [isFiltersOpen, setIsFiltersOpen] = useState(false);
 
   // Filter State
   const initialFilters: FilterState = {
@@ -1085,7 +1120,8 @@ const App: React.FC = () => {
 
         {view === 'CATALOG' && (
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex flex-col md:flex-row justify-between items-center mb-8 gap-4">
+            {/* Header */}
+            <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
               <h1 className="text-3xl font-bold text-slate-900">Каталог университетов <span className="text-slate-400 text-lg font-normal ml-2">{filteredUnis.length} найдено</span></h1>
               <div className="relative w-full md:w-96">
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-5 h-5" />
@@ -1099,44 +1135,42 @@ const App: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex flex-col md:flex-row gap-8">
-              {/* Filter Sidebar */}
-              <FilterPanel
-                filters={filters}
-                onChange={setFilters}
-                onReset={() => setFilters(initialFilters)}
-              />
+            {/* Collapsible Filters */}
+            <FilterPanel
+              filters={filters}
+              onChange={setFilters}
+              onReset={() => setFilters(initialFilters)}
+              isOpen={isFiltersOpen}
+              onToggle={() => setIsFiltersOpen(!isFiltersOpen)}
+            />
 
-              {/* Grid */}
-              <div className="flex-1">
-                {filteredUnis.length > 0 ? (
-                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                    {filteredUnis.map(uni => (
-                      <UniversityCard
-                        key={uni.id}
-                        uni={uni}
-                        onSelect={handleSelectUni}
-                        onCompare={toggleCompare}
-                        onToggleFavorite={toggleFavorite}
-                        isSelected={compareList.some(u => u.id === uni.id)}
-                        isFavorite={favorites.includes(uni.id)}
-                      />
-                    ))}
-                  </div>
-                ) : (
-                  <div className="flex flex-col items-center justify-center py-20 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
-                    <div className="bg-slate-100 p-4 rounded-full mb-4">
-                      <Search className="w-8 h-8 text-slate-400" />
-                    </div>
-                    <h3 className="text-lg font-semibold text-slate-900">Ничего не найдено</h3>
-                    <p className="text-slate-500 mb-6">Попробуйте изменить параметры фильтрации</p>
-                    <button onClick={() => setFilters(initialFilters)} className="text-kz-blue font-medium hover:underline">
-                      Сбросить фильтры
-                    </button>
-                  </div>
-                )}
+            {/* University Grid - Full width */}
+            {filteredUnis.length > 0 ? (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredUnis.map(uni => (
+                  <UniversityCard
+                    key={uni.id}
+                    uni={uni}
+                    onSelect={handleSelectUni}
+                    onCompare={toggleCompare}
+                    onToggleFavorite={toggleFavorite}
+                    isSelected={compareList.some(u => u.id === uni.id)}
+                    isFavorite={favorites.includes(uni.id)}
+                  />
+                ))}
               </div>
-            </div>
+            ) : (
+              <div className="flex flex-col items-center justify-center py-20 bg-slate-50 rounded-2xl border border-dashed border-slate-200">
+                <div className="bg-slate-100 p-4 rounded-full mb-4">
+                  <Search className="w-8 h-8 text-slate-400" />
+                </div>
+                <h3 className="text-lg font-semibold text-slate-900">Ничего не найдено</h3>
+                <p className="text-slate-500 mb-6">Попробуйте изменить параметры фильтрации</p>
+                <button onClick={() => setFilters(initialFilters)} className="text-kz-blue font-medium hover:underline">
+                  Сбросить фильтры
+                </button>
+              </div>
+            )}
           </div>
         )}
 
@@ -1163,8 +1197,8 @@ const App: React.FC = () => {
                     <button
                       onClick={() => setComparisonMode('absolute')}
                       className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${comparisonMode === 'absolute'
-                          ? 'bg-white text-slate-900 shadow-sm ring-1 ring-black/5'
-                          : 'text-slate-500 hover:text-slate-900'
+                        ? 'bg-white text-slate-900 shadow-sm ring-1 ring-black/5'
+                        : 'text-slate-500 hover:text-slate-900'
                         }`}
                     >
                       <Hash className="w-4 h-4" />
@@ -1173,8 +1207,8 @@ const App: React.FC = () => {
                     <button
                       onClick={() => setComparisonMode('relative')}
                       className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all flex items-center gap-2 ${comparisonMode === 'relative'
-                          ? 'bg-white text-slate-900 shadow-sm ring-1 ring-black/5'
-                          : 'text-slate-500 hover:text-slate-900'
+                        ? 'bg-white text-slate-900 shadow-sm ring-1 ring-black/5'
+                        : 'text-slate-500 hover:text-slate-900'
                         }`}
                     >
                       <Percent className="w-4 h-4" />

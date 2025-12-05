@@ -70,7 +70,7 @@ export const UNIVERSITIES: University[] = [
     id: 'kaznu',
     name: 'Al-Farabi Kazakh National University',
     shortName: 'KazNU',
-    city: 'Almaty',
+    city: 'Алматы',
     rating: 95,
     image: 'https://images.unsplash.com/photo-1562774053-701939374585?q=80&w=800&auto=format&fit=crop', // Green classic campus
     description: 'Ведущий национальный университет Казахстана, старейший вуз страны.',
@@ -87,30 +87,10 @@ export const UNIVERSITIES: University[] = [
     ]
   },
   {
-    id: 'kbtu',
-    name: 'Kazakh-British Technical University',
-    shortName: 'KBTU',
-    city: 'Almaty',
-    rating: 92,
-    image: 'https://images.unsplash.com/photo-1590579491624-f98f36d4c763?q=80&w=800&auto=format&fit=crop', // Classic architecture / columns
-    description: 'Один из лидеров технического образования в Центральной Азии.',
-    type: 'State',
-    founded: 2001,
-    students: 4000,
-    employmentRate: 98,
-    dormitory: true,
-    militaryDept: true,
-    coordinates: { lat: 43.25, lng: 76.94 },
-    programs: [
-      { id: 'it_kbtu', name: 'Information Technology', degree: 'Bachelor', price: 1800000, minScore: 115, grants: 120 },
-      { id: 'oil_kbtu', name: 'Petroleum Engineering', degree: 'Bachelor', price: 2000000, minScore: 100, grants: 80 },
-    ]
-  },
-  {
     id: 'iitu',
     name: 'International IT University',
     shortName: 'IITU',
-    city: 'Almaty',
+    city: 'Алматы',
     rating: 89,
     image: 'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?q=80&w=800&auto=format&fit=crop', // Modern tech environment
     description: 'Специализированный IT-вуз, готовящий кадры для цифровой экономики.',
@@ -130,7 +110,7 @@ export const UNIVERSITIES: University[] = [
     id: 'sdu',
     name: 'Suleyman Demirel University',
     shortName: 'SDU',
-    city: 'Kaskelen',
+    city: 'Каскелен',
     rating: 87,
     image: 'https://images.unsplash.com/photo-1504817343863-5092a3238007?q=80&w=800&auto=format&fit=crop', // Students on campus
     description: 'Международный университет с обучением преимущественно на английском языке.',
