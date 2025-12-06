@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+.env
+
+# Node.js
+node_modules/
+dist/
+build/
+.npm
+.yarn
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Project specific
+itfest-main/itfest-main/web/node_modules/
+rag-system/venv/
+rag-system/__pycache__/
+rag-system/db/

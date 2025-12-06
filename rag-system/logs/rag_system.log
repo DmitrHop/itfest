@@ -1,0 +1,43 @@
+2025-12-06 04:31:07 | INFO     | src.utils.data_loader:load_universities:24 | Loaded 26 universities from universities_frontend.json
+2025-12-06 04:31:07 | INFO     | src.utils.data_loader:prepare_chunks:72 | Prepared 26 chunks for indexing
+2025-12-06 04:31:07 | INFO     | src.services.vector_store:__init__:22 | Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2...
+2025-12-06 04:32:06 | INFO     | src.services.vector_store:__init__:24 | Embedding model loaded successfully
+2025-12-06 04:32:08 | INFO     | src.services.vector_store:__init__:38 | Vector store initialized at: C:\Users\Klins\Downloads\itfest-main\rag-system\data\vector_db
+2025-12-06 04:32:08 | INFO     | src.services.vector_store:index_documents:56 | Creating embeddings for 26 documents...
+2025-12-06 04:32:09 | ERROR    | src.services.vector_store:index_documents:72 | Error indexing documents: argument 'metadatas': failed to extract enum MetadataValue ('Bool | Int | Float | Str | SparseVector')
+- variant Bool (Bool): TypeError: failed to extract field MetadataValue::Bool.0, caused by TypeError: 'NoneType' object cannot be converted to 'PyBool'
+- variant Int (Int): TypeError: failed to extract field MetadataValue::Int.0, caused by TypeError: 'NoneType' object cannot be interpreted as an integer
+- variant Float (Float): TypeError: failed to extract field MetadataValue::Float.0, caused by TypeError: must be real number, not NoneType
+- variant Str (Str): TypeError: failed to extract field MetadataValue::Str.0, caused by TypeError: 'NoneType' object cannot be converted to 'PyString'
+- variant SparseVector (SparseVector): TypeError: failed to extract field MetadataValue::SparseVector.0, caused by TypeError: 'NoneType' object cannot be converted to 'PyDict'
+2025-12-06 04:32:09 | ERROR    | __main__:init_database:68 | Initialization failed: argument 'metadatas': failed to extract enum MetadataValue ('Bool | Int | Float | Str | SparseVector')
+- variant Bool (Bool): TypeError: failed to extract field MetadataValue::Bool.0, caused by TypeError: 'NoneType' object cannot be converted to 'PyBool'
+- variant Int (Int): TypeError: failed to extract field MetadataValue::Int.0, caused by TypeError: 'NoneType' object cannot be interpreted as an integer
+- variant Float (Float): TypeError: failed to extract field MetadataValue::Float.0, caused by TypeError: must be real number, not NoneType
+- variant Str (Str): TypeError: failed to extract field MetadataValue::Str.0, caused by TypeError: 'NoneType' object cannot be converted to 'PyString'
+- variant SparseVector (SparseVector): TypeError: failed to extract field MetadataValue::SparseVector.0, caused by TypeError: 'NoneType' object cannot be converted to 'PyDict'
+2025-12-06 04:33:25 | INFO     | src.utils.data_loader:load_universities:24 | Loaded 26 universities from universities_frontend.json
+2025-12-06 04:33:25 | INFO     | src.utils.data_loader:prepare_chunks:73 | Prepared 26 chunks for indexing
+2025-12-06 04:33:25 | INFO     | src.services.vector_store:__init__:22 | Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2...
+2025-12-06 04:33:31 | INFO     | src.services.vector_store:__init__:24 | Embedding model loaded successfully
+2025-12-06 04:33:31 | INFO     | src.services.vector_store:__init__:38 | Vector store initialized at: C:\Users\Klins\Downloads\itfest-main\rag-system\data\vector_db
+2025-12-06 04:33:31 | INFO     | src.services.vector_store:index_documents:56 | Creating embeddings for 26 documents...
+2025-12-06 04:33:32 | INFO     | src.services.vector_store:index_documents:69 | Successfully indexed 26 documents
+2025-12-06 04:33:32 | DEBUG    | src.services.vector_store:search:92 | Search query: 'IT университет в Алматы...' returned 3 results
+2025-12-06 04:34:51 | INFO     | src.main:lifespan:23 | 🚀 Starting University RAG System...
+2025-12-06 04:34:51 | INFO     | src.services.rag_pipeline:__init__:19 | Initializing RAG Pipeline...
+2025-12-06 04:34:51 | INFO     | src.services.vector_store:__init__:22 | Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2...
+2025-12-06 04:34:58 | INFO     | src.services.vector_store:__init__:24 | Embedding model loaded successfully
+2025-12-06 04:34:58 | INFO     | src.services.vector_store:__init__:38 | Vector store initialized at: C:\Users\Klins\Downloads\itfest-main\rag-system\data\vector_db
+2025-12-06 04:34:58 | INFO     | src.services.llm_service:__init__:73 | Gemini LLM service initialized
+2025-12-06 04:34:58 | INFO     | src.services.rag_pipeline:__init__:33 | RAG Pipeline initialized successfully
+2025-12-06 04:34:58 | INFO     | src.main:lifespan:32 | ✅ RAG System ready to serve requests
+2025-12-06 05:02:51 | INFO     | src.main:lifespan:39 | 👋 Shutting down RAG System
+2025-12-06 05:03:12 | INFO     | src.main:lifespan:23 | 🚀 Starting University RAG System...
+2025-12-06 05:03:12 | INFO     | src.services.rag_pipeline:__init__:19 | Initializing RAG Pipeline...
+2025-12-06 05:03:12 | INFO     | src.services.vector_store:__init__:22 | Loading embedding model: paraphrase-multilingual-MiniLM-L12-v2...
+2025-12-06 05:03:20 | INFO     | src.services.vector_store:__init__:24 | Embedding model loaded successfully
+2025-12-06 05:03:23 | INFO     | src.services.vector_store:__init__:38 | Vector store initialized at: C:\Users\Klins\Downloads\itfest-main\rag-system\data\vector_db
+2025-12-06 05:03:23 | INFO     | src.services.llm_service:__init__:73 | Gemini LLM service initialized
+2025-12-06 05:03:23 | INFO     | src.services.rag_pipeline:__init__:33 | RAG Pipeline initialized successfully
+2025-12-06 05:03:23 | INFO     | src.main:lifespan:32 | ✅ RAG System ready to serve requests
