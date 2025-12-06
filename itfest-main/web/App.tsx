@@ -1050,7 +1050,7 @@ const App: React.FC = () => {
       <main className="flex-1">
         {view === 'HOME' && (
           <>
-            <Hero onCtaClick={goCatalog} onCalculatorClick={goAi} />
+            <Hero onCtaClick={goCatalog} onCalculatorClick={() => setIsCalculatorOpen(true)} />
 
             <StatsTicker />
 

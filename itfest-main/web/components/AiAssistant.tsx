@@ -212,74 +212,74 @@ const AiAssistant: React.FC = () => {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50 flex flex-col justify-end">
-        {messages.map((msg) => (
-          <div key={msg.id}>
-            <div className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-              <div className={`flex max-w-[90%] gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
-                <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${msg.role === 'user' ? 'bg-kz-blue' : 'bg-slate-100' // Use Brand Blue for user
-                  }`}>
-                  {msg.role === 'user'
-                    ? <User className="w-4 h-4 text-white" />
-                    : <Brain className="w-4 h-4 text-kz-blue" /> // Brand blue icon
-                  }
-                </div>
-                <div className={`p-4 rounded-xl text-sm leading-relaxed ${msg.role === 'user'
-                  ? 'bg-kz-blue text-white rounded-tr-sm shadow-sm shadow-cyan-100' // Brand Blue bubble
-                  : 'bg-white text-slate-700 rounded-tl-sm border border-slate-100 shadow-sm'
-                  }`}>
-                  <div
-                    dangerouslySetInnerHTML={{ __html: formatMessage(msg.text) }}
-                    className="whitespace-pre-wrap"
-                  />
-                  {msg.role === 'model' && msg.isRAG && (
-                    <div className="mt-2 pt-2 border-t border-slate-100 flex items-center gap-1.5 text-xs text-kz-blue/80">
-                      <Database className="w-3 h-3" />
-                      <span>Из базы данных</span>
-                    </div>
-                  )}
+      <div className="flex-1 overflow-y-auto bg-slate-50">
+        <div className="min-h-full flex flex-col justify-end p-4 space-y-4">
+          {messages.map((msg) => (
+            <div key={msg.id}>
+              <div className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
+                <div className={`flex max-w-[90%] gap-3 ${msg.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}>
+                  <div className={`w-8 h-8 rounded-lg flex items-center justify-center flex-shrink-0 ${msg.role === 'user' ? 'bg-kz-blue' : 'bg-slate-100' // Use Brand Blue for user
+                    }`}>
+                    {msg.role === 'user'
+                      ? <User className="w-4 h-4 text-white" />
+                      : <Brain className="w-4 h-4 text-kz-blue" /> // Brand blue icon
+                    }
+                  </div>
+                  <div className={`p-4 rounded-xl text-sm leading-relaxed ${msg.role === 'user'
+                    ? 'bg-kz-blue text-white rounded-tr-sm shadow-sm shadow-cyan-100' // Brand Blue bubble
+                    : 'bg-white text-slate-700 rounded-tl-sm border border-slate-100 shadow-sm'
+                    }`}>
+                    <div
+                      dangerouslySetInnerHTML={{ __html: formatMessage(msg.text) }}
+                      className="whitespace-pre-wrap"
+                    />
+                    {msg.role === 'model' && msg.isRAG && (
+                      <div className="mt-2 pt-2 border-t border-slate-100 flex items-center gap-1.5 text-xs text-kz-blue/80">
+                        <Database className="w-3 h-3" />
+                        <span>Из базы данных</span>
+                      </div>
+                    )}
+                  </div>
                 </div>
               </div>
+
+              {msg.sources && msg.sources.length > 0 && (
+                <div className="ml-11 mt-2">
+                  <div className="text-xs text-slate-500 mb-2 font-medium">
+                    Источники ({msg.sources.length}):
+                  </div>
+                  <div className="grid gap-2">
+                    {msg.sources.slice(0, 3).map((source, idx) => (
+                      <SourceCard key={idx} source={source} />
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
+          ))}
 
-            {msg.sources && msg.sources.length > 0 && (
-              <div className="ml-11 mt-2">
-                <div className="text-xs text-slate-500 mb-2 font-medium">
-                  Источники ({msg.sources.length}):
+          {/* Loading */}
+          {loading && (
+            <div className="flex justify-start">
+              <div className="flex max-w-[90%] gap-3">
+                <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
+                  <Brain className="w-4 h-4 text-slate-400 animate-pulse" />
                 </div>
-                <div className="grid gap-2">
-                  {msg.sources.slice(0, 3).map((source, idx) => (
-                    <SourceCard key={idx} source={source} />
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        ))}
-
-        {/* Loading */}
-        {loading && (
-          <div className="flex justify-start">
-            <div className="flex max-w-[90%] gap-3">
-              <div className="w-8 h-8 rounded-lg bg-slate-100 flex items-center justify-center">
-                <Brain className="w-4 h-4 text-slate-400 animate-pulse" />
-              </div>
-              <div className="bg-white p-4 rounded-xl rounded-tl-sm border border-slate-100">
-                <div className="flex items-center gap-2">
-                  <div className="flex gap-1">
-                    <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
-                    <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                <div className="bg-white p-4 rounded-xl rounded-tl-sm border border-slate-100">
+                  <div className="flex items-center gap-2">
+                    <div className="flex gap-1">
+                      <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-1.5 h-1.5 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
 
-
-
-        <div ref={messagesEndRef} />
+          <div ref={messagesEndRef} />
+        </div>
       </div>
 
       {/* Quick Actions - Anchored above Input */}
